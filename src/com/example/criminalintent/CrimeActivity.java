@@ -1,11 +1,13 @@
 package com.example.criminalintent;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentActivity;
 
-public class CrimeActivity extends Activity {
+
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public class CrimeActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
