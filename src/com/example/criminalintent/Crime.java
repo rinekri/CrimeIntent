@@ -6,7 +6,7 @@ public class Crime {
 	private UUID mId;
 	private String mTitle;
 	
-	private Crime() {
+	public Crime() {
 		mId = UUID.randomUUID();
 	}
 
