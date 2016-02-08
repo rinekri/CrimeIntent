@@ -18,13 +18,11 @@ public class CrimeFragment extends Fragment {
 	public void onCreate(Bundle savedFragmentState) {
 		super.onCreate(savedFragmentState);
 		mCrime = new Crime();
-		
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater layoutInflater, ViewGroup parent, Bundle savedFragmentState) {
 		View view = layoutInflater.inflate(R.layout.fragment_crime, parent, false);
-		
 		
 		mEditText = (EditText) view.findViewById(R.id.crime_title);
 		mEditText.addTextChangedListener(new TextWatcher() {
