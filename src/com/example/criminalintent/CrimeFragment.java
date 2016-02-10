@@ -1,5 +1,7 @@
 package com.example.criminalintent;
 
+import java.text.SimpleDateFormat;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -52,7 +54,8 @@ public class CrimeFragment extends Fragment {
 		});
 		
 		mDateButton = (Button) view.findViewById(R.id.crime_date);
-		mDateButton.setText(mCrime.getDate().toString());
+		String formatedString = SimpleDateFormat.getDateInstance().format(mCrime.getDate());
+		mDateButton.setText(formatedString);
 		mDateButton.setEnabled(false);
 		
 		
