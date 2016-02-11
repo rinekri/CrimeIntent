@@ -1,6 +1,7 @@
 package com.example.criminalintent;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,7 +55,7 @@ public class CrimeFragment extends Fragment {
 		});
 		
 		mDateButton = (Button) view.findViewById(R.id.crime_date);
-		String formatedString = SimpleDateFormat.getDateInstance().format(mCrime.getDate());
+		String formatedString = new SimpleDateFormat("d MMM yyyy, EEEE", Locale.getDefault()).format(mCrime.getDate());
 		mDateButton.setText(formatedString);
 		mDateButton.setEnabled(false);
 		
