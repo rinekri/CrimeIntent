@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class CrimeActivity extends FragmentActivity {
 
