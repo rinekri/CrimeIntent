@@ -8,23 +8,19 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class CrimeActivity extends FragmentActivity {
-
+public abstract class SingleFragmentActivity extends FragmentActivity {
+	
+	protected abstract Fragment createFragment();
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment);
-		
 		FragmentManager fm = getSupportFragmentManager();
-		Fragment crimeFragment = fm.findFragmentById(R.id.fragmentContainer);
-		
-		if (crimeFragment == null) {
-			crimeFragment = new CrimeFragment();
-			
-			fm.beginTransaction().add(R.id.fragmentContainer, crimeFragment).commit();
-			
+		Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+		if (fragment == null) {
+			fragment = createFragment();
+			fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
 		}
-		
-		
 	}
 }
