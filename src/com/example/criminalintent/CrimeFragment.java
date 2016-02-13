@@ -2,6 +2,8 @@ package com.example.criminalintent;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.UUID;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -16,6 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
 public class CrimeFragment extends Fragment {
+	public static final String EXTRA_CRIME_ID = "com.example.criminalintent.crime_id";
 	
 	private Crime mCrime;
 	private EditText mEditText;
@@ -25,7 +28,9 @@ public class CrimeFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedFragmentState) {
 		super.onCreate(savedFragmentState);
-		mCrime = new Crime();
+		
+		UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 	}
 	
 	@Override
@@ -33,6 +38,7 @@ public class CrimeFragment extends Fragment {
 		View view = layoutInflater.inflate(R.layout.fragment_crime, parent, false);
 		
 		mEditText = (EditText) view.findViewById(R.id.crime_title);
+		mEditText.setText(mCrime.getTitle());
 		mEditText.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -60,6 +66,7 @@ public class CrimeFragment extends Fragment {
 		
 		
 		mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
+		mSolvedCheckBox.setChecked(mCrime.isSolved());
 		mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
