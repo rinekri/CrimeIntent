@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,7 +30,8 @@ public class CrimeListFragment extends ListFragment {
 	
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Crime c = ((CrimeAdapter) getListAdapter()).getItem(position);
-		Log.d(TAG, (c.getTitle() + " was clicked") + " with " +c.getDate() + " while " +c.isSolved());
+		Intent i = new Intent(getActivity(), CrimeActivity.class);
+		startActivity(i);
 	}
 	
 	
