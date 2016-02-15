@@ -3,7 +3,6 @@ package com.example.criminalintent;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.UUID;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
