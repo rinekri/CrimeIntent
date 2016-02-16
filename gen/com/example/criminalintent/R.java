@@ -2246,6 +2246,7 @@ containing a value of this type.
         public static final int crime_title_hint=0x7f0a0015;
         public static final int crime_title_label=0x7f0a0016;
         public static final int crimes_title=0x7f0a0019;
+        public static final int date_picker_title=0x7f0a001a;
         /**  Text to use when the number in a notification info is too large
          (greater than status_bar_notification_info_maxnum, defined in
          values/config.xml) and must be truncated. May need to be localized
