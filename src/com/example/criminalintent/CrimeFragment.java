@@ -1,9 +1,12 @@
 package com.example.criminalintent;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -63,8 +66,7 @@ public class CrimeFragment extends Fragment {
 		});
 		
 		mDateButton = (Button) view.findViewById(R.id.crime_date);
-		String formatedString = new SimpleDateFormat("d MMM yyyy, EEEE", Locale.getDefault()).format(mCrime.getDate());
-		mDateButton.setText(formatedString);
+		updateDate(mCrime.getDate());
 		mDateButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -96,5 +98,20 @@ public class CrimeFragment extends Fragment {
 		CrimeFragment fragment = new CrimeFragment();
 		fragment.setArguments(args);
 		return fragment;
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode != Activity.RESULT_OK) return;
+		if(requestCode == REQUEST_DATE) {
+			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+			mCrime.setDate(date);
+			updateDate(mCrime.getDate());
+		}
+	}
+	
+	public void updateDate(Date setdate) {
+		String formatedString = new SimpleDateFormat("d MMM yyyy, EEEE", Locale.getDefault()).format(setdate);
+		mDateButton.setText(formatedString);
 	}
 }
