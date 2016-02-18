@@ -1,7 +1,10 @@
 package com.example.criminalintent;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -24,12 +27,16 @@ import android.widget.EditText;
 public class CrimeFragment extends Fragment {
 	public static final String EXTRA_CRIME_ID = "com.example.criminalintent.crime_id";
 	private static final String DIALOG_DATE = "date";
+	private static final String DIALOG_TIME = "time";
 	private static final int REQUEST_DATE = 0;	
+	private static final int REQUEST_TIME = 1;
 	
+	private Calendar mCrimeCalendar;
 	private Crime mCrime;
 	private EditText mEditText;
 	private Button mDateButton;
 	private CheckBox mSolvedCheckBox;
+	private Button mTimeButton;
 	
 	@Override
 	public void onCreate(Bundle savedFragmentState) {
@@ -37,6 +44,8 @@ public class CrimeFragment extends Fragment {
 		
 		UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+		mCrimeCalendar = new GregorianCalendar();
+		mCrimeCalendar.setTime(mCrime.getDate());
 	}
 	
 	@Override
@@ -66,18 +75,31 @@ public class CrimeFragment extends Fragment {
 		});
 		
 		mDateButton = (Button) view.findViewById(R.id.crime_date);
-		updateDate(mCrime.getDate());
+		updateDate(mCrimeCalendar.getTime());
 		mDateButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate());
+				DatePickerFragment dialog = DatePickerFragment.newInstance(mCrimeCalendar.getTime());
 				dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
 				dialog.show(fm, DIALOG_DATE);
 			}
 			
 		});	
+		
+		mTimeButton = (Button) view.findViewById(R.id.crime_time);
+		updateTime(mCrimeCalendar.getTime());
+		mTimeButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				TimePickerFragment dialog = TimePickerFragment.newInstance(mCrimeCalendar.getTime());
+				dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
+				dialog.show(fm, DIALOG_TIME);
+			}
+		});
 		
 		mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
 		mSolvedCheckBox.setChecked(mCrime.isSolved());
@@ -105,13 +127,35 @@ public class CrimeFragment extends Fragment {
 		if(resultCode != Activity.RESULT_OK) return;
 		if(requestCode == REQUEST_DATE) {
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-			mCrime.setDate(date);
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(date);
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH);
+			int day = calendar.get(Calendar.DAY_OF_MONTH);
+			mCrimeCalendar.set(year, month, day);
+			mCrime.setDate(mCrimeCalendar.getTime());
 			updateDate(mCrime.getDate());
+		}
+		if(requestCode == REQUEST_TIME) {
+			Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(time);
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+			int minute = calendar.get(Calendar.MINUTE);
+			mCrimeCalendar.set(Calendar.HOUR_OF_DAY, hour);
+			mCrimeCalendar.set(Calendar.MINUTE, minute);
+			mCrime.setDate(mCrimeCalendar.getTime());
+			updateTime(mCrime.getDate());
 		}
 	}
 	
-	public void updateDate(Date setdate) {
-		String formatedString = new SimpleDateFormat("d MMM yyyy, EEEE", Locale.getDefault()).format(setdate);
+	private void updateDate(Date setDate) {
+		String formatedString = new SimpleDateFormat("d MMM yyyy, EEEE", Locale.getDefault()).format(setDate);
 		mDateButton.setText(formatedString);
+	}
+	
+	private void updateTime(Date setTime) {
+		String formatedString = DateFormat.getTimeInstance(DateFormat.SHORT,Locale.getDefault()).format(setTime);
+		mTimeButton.setText(formatedString);
 	}
 }
