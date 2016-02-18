@@ -17,15 +17,16 @@ import android.widget.TimePicker;
 public class TimePickerFragment extends DialogFragment {
 	public static final String EXTRA_TIME = "com.example.criminalintent.extra_time";
 	private Date mDate;
+	private Calendar mCalendar;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mDate = (Date) getArguments().getSerializable(EXTRA_TIME);
 		
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(mDate);
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		int minute = calendar.get(Calendar.MINUTE);
+		mCalendar = new GregorianCalendar();
+		mCalendar.setTime(mDate);
+		int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
+		int minute =mCalendar.get(Calendar.MINUTE);
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_time, null);
 		
@@ -37,10 +38,9 @@ public class TimePickerFragment extends DialogFragment {
 			
 			@Override
 			public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-				Calendar calendar = new GregorianCalendar();
-				calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-				calendar.set(Calendar.MINUTE, minute);
-				mDate = calendar.getTime();
+				mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				mCalendar.set(Calendar.MINUTE, minute);
+				mDate = mCalendar.getTime();
 			}
 		});
 		
