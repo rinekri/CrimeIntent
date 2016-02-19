@@ -29,22 +29,23 @@ public class DateAndTimeFragment extends DialogFragment {
 	private Button mTimeButton;
 	private Calendar mCrimeCalendar; 
 
+
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstaceState) {
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mDate = (Date) getArguments().getSerializable(EXTRA_DATE_AND_TIME);
 		mCrimeCalendar = Calendar.getInstance();
 		mCrimeCalendar.setTime(mDate);
-		
+
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date_time, null);
 		
 		mDateButton = (Button) v.findViewById(R.id.crime_date);
-		updateDate(mDate);
+		updateDate(mCrimeCalendar.getTime());
 		mDateButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				DatePickerFragment dialog = DatePickerFragment.newInstance(mDate);
+				DatePickerFragment dialog = DatePickerFragment.newInstance(mCrimeCalendar.getTime());
 				dialog.setTargetFragment(DateAndTimeFragment.this, REQUEST_DATE);
 				dialog.show(fm, DIALOG_DATE);
 			}
@@ -52,13 +53,13 @@ public class DateAndTimeFragment extends DialogFragment {
 		});
 		
 		mTimeButton = (Button) v.findViewById(R.id.crime_time);
-		updateTime(mDate);
+		updateTime(mCrimeCalendar.getTime());
 		mTimeButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				TimePickerFragment dialog = TimePickerFragment.newInstance(mDate);
+				TimePickerFragment dialog = TimePickerFragment.newInstance(mCrimeCalendar.getTime());
 				dialog.setTargetFragment(DateAndTimeFragment.this, REQUEST_TIME);
 				dialog.show(fm, DIALOG_TIME);
 				
@@ -71,13 +72,6 @@ public class DateAndTimeFragment extends DialogFragment {
 				.create();
 	}
 	
-	public static DateAndTimeFragment newInstance(Date crimeDate) {
-		Bundle args = new Bundle();
-		args.putSerializable(EXTRA_DATE_AND_TIME, crimeDate);
-		DateAndTimeFragment fragment = new DateAndTimeFragment();
-		fragment.setArguments(args);
-		return fragment;
-	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,7 +96,17 @@ public class DateAndTimeFragment extends DialogFragment {
 			updateTime(mCrimeCalendar.getTime());
 		}
 		mDate = (mCrimeCalendar.getTime());
+		getArguments().putSerializable(EXTRA_DATE_AND_TIME, mDate);
 		sendResult(Activity.RESULT_OK);
+	}
+	
+
+	public static DateAndTimeFragment newInstance(Date crimeDate) {
+		Bundle args = new Bundle();
+		args.putSerializable(EXTRA_DATE_AND_TIME, crimeDate);
+		DateAndTimeFragment fragment = new DateAndTimeFragment();
+		fragment.setArguments(args);
+		return fragment;
 	}
 	
 	private void sendResult(int resultCode) {
@@ -111,7 +115,7 @@ public class DateAndTimeFragment extends DialogFragment {
 		}
 		
 		Intent i = new Intent();
-		i.putExtra(EXTRA_DATE_AND_TIME, mDate);
+		i.putExtra(EXTRA_DATE_AND_TIME, mCrimeCalendar.getTime());
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}

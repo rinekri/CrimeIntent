@@ -106,6 +106,4 @@ public class CrimeFragment extends Fragment {
 		fragment.setArguments(args);
 		return fragment;
 	}
-	
-
 }
