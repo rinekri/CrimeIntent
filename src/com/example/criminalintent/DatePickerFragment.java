@@ -2,7 +2,6 @@ package com.example.criminalintent;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,16 +17,17 @@ import android.widget.DatePicker.OnDateChangedListener;
 public class DatePickerFragment extends DialogFragment {
 	public static final String EXTRA_DATE = "com.example.criminalintent.extra_date";
 	private Date mDate;
+	private Calendar mCalendar;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mDate = (Date) getArguments().getSerializable(EXTRA_DATE);
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(mDate);
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		mCalendar = Calendar.getInstance();
+		mCalendar.setTime(mDate);
+		int year = mCalendar.get(Calendar.YEAR);
+		int month = mCalendar.get(Calendar.MONTH);
+		int day = mCalendar.get(Calendar.DAY_OF_MONTH);
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
 		
@@ -36,7 +36,8 @@ public class DatePickerFragment extends DialogFragment {
 
 			@Override
 			public void onDateChanged(DatePicker view, int year, int month, int day) {
-				mDate = new GregorianCalendar(year, month, day).getTime();
+				mCalendar.set(year, month, day);
+				mDate = mCalendar.getTime();
 				getArguments().putSerializable(EXTRA_DATE, mDate);
 			}
 			

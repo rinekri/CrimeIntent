@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class CrimeFragment extends Fragment {
 	private static final String DIALOG_TIME = "time";
 	private static final int REQUEST_DATE = 0;	
 	private static final int REQUEST_TIME = 1;
+	private static final String TAG = "CrimeFragment";
 	
 	private Calendar mCrimeCalendar;
 	private Crime mCrime;
@@ -44,8 +46,9 @@ public class CrimeFragment extends Fragment {
 		
 		UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-		mCrimeCalendar = new GregorianCalendar();
+		mCrimeCalendar = Calendar.getInstance();
 		mCrimeCalendar.setTime(mCrime.getDate());
+		Log.d(TAG, "Initial date "+mCrimeCalendar.getTime().toString());
 	}
 	
 	@Override
@@ -125,28 +128,29 @@ public class CrimeFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode != Activity.RESULT_OK) return;
+		Calendar calendar = new GregorianCalendar();
 		if(requestCode == REQUEST_DATE) {
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-			Calendar calendar = new GregorianCalendar();
+			Log.d(TAG, "Date came "+date.toString());
 			calendar.setTime(date);
 			int year = calendar.get(Calendar.YEAR);
 			int month = calendar.get(Calendar.MONTH);
 			int day = calendar.get(Calendar.DAY_OF_MONTH);
 			mCrimeCalendar.set(year, month, day);
-			mCrime.setDate(mCrimeCalendar.getTime());
-			updateDate(mCrime.getDate());
+			updateDate(mCrimeCalendar.getTime());
 		}
 		if(requestCode == REQUEST_TIME) {
 			Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-			Calendar calendar = new GregorianCalendar();
+			Log.d(TAG, "Time came "+time.toString());
 			calendar.setTime(time);
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
 			mCrimeCalendar.set(Calendar.HOUR_OF_DAY, hour);
 			mCrimeCalendar.set(Calendar.MINUTE, minute);
-			mCrime.setDate(mCrimeCalendar.getTime());
-			updateTime(mCrime.getDate());
+			updateTime(mCrimeCalendar.getTime());
 		}
+		mCrime.setDate(mCrimeCalendar.getTime());
+		Log.d(TAG, "Crime's date changed "+mCrimeCalendar.getTime().toString());
 	}
 	
 	private void updateDate(Date setDate) {

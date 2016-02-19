@@ -2,7 +2,6 @@ package com.example.criminalintent;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,10 +22,10 @@ public class TimePickerFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mDate = (Date) getArguments().getSerializable(EXTRA_TIME);
 		
-		mCalendar = new GregorianCalendar();
+		mCalendar = Calendar.getInstance();
 		mCalendar.setTime(mDate);
 		int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
-		int minute =mCalendar.get(Calendar.MINUTE);
+		int minute = mCalendar.get(Calendar.MINUTE);
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_time, null);
 		
