@@ -15,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ public class CrimeFragment extends Fragment {
 	private static final String DIALOG_TIME = "time";
 	private static final int REQUEST_DATE = 0;	
 	private static final int REQUEST_TIME = 1;
-	private static final String TAG = "CrimeFragment";
 	
 	private Calendar mCrimeCalendar;
 	private Crime mCrime;
@@ -48,7 +46,6 @@ public class CrimeFragment extends Fragment {
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 		mCrimeCalendar = Calendar.getInstance();
 		mCrimeCalendar.setTime(mCrime.getDate());
-		Log.d(TAG, "Initial date "+mCrimeCalendar.getTime().toString());
 	}
 	
 	@Override
@@ -131,7 +128,6 @@ public class CrimeFragment extends Fragment {
 		Calendar calendar = new GregorianCalendar();
 		if(requestCode == REQUEST_DATE) {
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-			Log.d(TAG, "Date came "+date.toString());
 			calendar.setTime(date);
 			int year = calendar.get(Calendar.YEAR);
 			int month = calendar.get(Calendar.MONTH);
@@ -141,7 +137,6 @@ public class CrimeFragment extends Fragment {
 		}
 		if(requestCode == REQUEST_TIME) {
 			Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-			Log.d(TAG, "Time came "+time.toString());
 			calendar.setTime(time);
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
@@ -150,7 +145,6 @@ public class CrimeFragment extends Fragment {
 			updateTime(mCrimeCalendar.getTime());
 		}
 		mCrime.setDate(mCrimeCalendar.getTime());
-		Log.d(TAG, "Crime's date changed "+mCrimeCalendar.getTime().toString());
 	}
 	
 	private void updateDate(Date setDate) {

@@ -15,8 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class CrimeListFragment extends ListFragment {
-	private static final String TAG = "CrimeListFragment";
-	
 	ArrayList<Crime> mCrimes;
 
 	@Override
