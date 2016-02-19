@@ -65,7 +65,6 @@ public class DatePickerFragment extends DialogFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-	
 		if (getTargetFragment() == null) {
 			return;
 		}
@@ -74,7 +73,6 @@ public class DatePickerFragment extends DialogFragment {
 		i.putExtra(EXTRA_DATE, mDate);
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
-		
 	}
 	
 }
