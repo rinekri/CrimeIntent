@@ -2249,6 +2249,10 @@ containing a value of this type.
         public static final int crime_title_label=0x7f0a0016;
         public static final int crimes_title=0x7f0a0019;
         public static final int date_picker_title=0x7f0a001a;
+        public static final int delete_crime=0x7f0a001f;
+        public static final int hide_subtitle=0x7f0a001d;
+        public static final int new_crime=0x7f0a001b;
+        public static final int show_subtitle=0x7f0a001c;
         /**  Text to use when the number in a notification info is too large
          (greater than status_bar_notification_info_maxnum, defined in
          values/config.xml) and must be truncated. May need to be localized
@@ -2256,6 +2260,7 @@ containing a value of this type.
          [CHAR LIMIT=4] 
          */
         public static final int status_bar_notification_info_overflow=0x7f0a0011;
+        public static final int subtitle=0x7f0a001e;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f0b0042;

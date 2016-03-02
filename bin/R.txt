@@ -612,7 +612,12 @@ int string crime_title_hint 0x7f0a0015
 int string crime_title_label 0x7f0a0016
 int string crimes_title 0x7f0a0019
 int string date_picker_title 0x7f0a001a
+int string delete_crime 0x7f0a001f
+int string hide_subtitle 0x7f0a001d
+int string new_crime 0x7f0a001b
+int string show_subtitle 0x7f0a001c
 int string status_bar_notification_info_overflow 0x7f0a0011
+int string subtitle 0x7f0a001e
 int style AlertDialog_AppCompat 0x7f0b0042
 int style AlertDialog_AppCompat_Light 0x7f0b0043
 int style Animation_AppCompat_Dialog 0x7f0b0049
