@@ -2048,6 +2048,7 @@ containing a value of this type.
         public static final int listMode=0x7f09000b;
         public static final int list_item=0x7f090029;
         public static final int media_actions=0x7f09005c;
+        public static final int menu_item_new_crime=0x7f090066;
         public static final int middle=0x7f090021;
         public static final int multiply=0x7f090015;
         public static final int never=0x7f09001d;
@@ -2175,6 +2176,9 @@ containing a value of this type.
         public static final int select_dialog_multichoice_material=0x7f030026;
         public static final int select_dialog_singlechoice_material=0x7f030027;
         public static final int support_simple_spinner_dropdown_item=0x7f030028;
+    }
+    public static final class menu {
+        public static final int fragment_crime_list=0x7f0c0000;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
