@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,9 +41,15 @@ public class CrimeFragment extends Fragment {
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 	}
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public View onCreateView(LayoutInflater layoutInflater, ViewGroup parent, Bundle savedFragmentState) {
 		View view = layoutInflater.inflate(R.layout.fragment_crime, parent, false);
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		
 		
 		mEditText = (EditText) view.findViewById(R.id.crime_title);
 		mEditText.setText(mCrime.getTitle());
