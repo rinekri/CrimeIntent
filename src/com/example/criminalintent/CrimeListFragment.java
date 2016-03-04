@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,7 +45,15 @@ public class CrimeListFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater layoutInflater, ViewGroup parent, Bundle savedFragmentState) {
 		
-		View v = super.onCreateView(layoutInflater, parent, savedFragmentState);
+		View v = layoutInflater.inflate(R.layout.list_item_view, parent, false);
+		Button mNewCrimeButton = (Button) v.findViewById(R.id.new_crime_button);
+		mNewCrimeButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				createNullCrime();					
+			}
+		});
 		
 		if (mSubtitleVisible) {
 			getActivity().getActionBar().setSubtitle(R.string.subtitle);
@@ -82,11 +91,7 @@ public class CrimeListFragment extends ListFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_item_new_crime:
-				Crime crime = new Crime();
-				CrimeLab.get(getActivity()).addCrime(crime);
-				Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-				i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-				startActivityForResult(i,0);
+				createNullCrime();
 				return true;
 			case R.id.menu_item_show_subtitle:
 				if (getActivity().getActionBar().getSubtitle() != null) {
@@ -131,5 +136,13 @@ public class CrimeListFragment extends ListFragment {
 			
 			return convertView;
 		}
+	}
+	
+	private void createNullCrime() {
+		Crime crime = new Crime();
+		CrimeLab.get(getActivity()).addCrime(crime);
+		Intent i = new Intent(getActivity(), CrimePagerActivity.class);
+		i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+		startActivityForResult(i,0);
 	}
 }
