@@ -2049,6 +2049,7 @@ containing a value of this type.
         public static final int list_item=0x7f090029;
         public static final int media_actions=0x7f09005c;
         public static final int menu_item_new_crime=0x7f090066;
+        public static final int menu_item_show_subtitle=0x7f090067;
         public static final int middle=0x7f090021;
         public static final int multiply=0x7f090015;
         public static final int never=0x7f09001d;
