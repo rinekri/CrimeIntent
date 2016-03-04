@@ -14,7 +14,7 @@ import android.support.v4.view.ViewPager;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class CrimePagerActivity extends FragmentActivity {
-	private ViewPager mViewPager; 
+	private ViewPager mViewPager;  
 	private ArrayList<Crime> mCrimes;
 
 	public void onCreate(Bundle savedInstanceState) {
