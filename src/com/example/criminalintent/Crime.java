@@ -3,7 +3,15 @@ package com.example.criminalintent;
 import java.util.Date;
 import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Crime {
+	private static final String JSON_ID = "id";
+	private static final String JSON_TITLE = "title";
+	private static final String JSON_DATE = "date";
+	private static final String JSON_SOLVED = "solved";
+	
 	private UUID mId;
 	private String mTitle;
 	private Date mDate;
@@ -41,6 +49,15 @@ public class Crime {
 
 	public void setSolved(boolean solved) {
 		mSolved = solved;
+	}
+	
+	public JSONObject toJSON() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put(JSON_ID, getId().toString());
+		json.put(JSON_TITLE, getTitle());
+		json.put(JSON_DATE, getDate().toString());
+		json.put(JSON_SOLVED, isSolved());
+		return json;
 	}
 	
 	@Override
