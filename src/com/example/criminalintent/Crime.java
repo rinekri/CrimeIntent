@@ -22,6 +22,17 @@ public class Crime {
 		mId = UUID.randomUUID();
 		mDate = new Date();
 	}
+	
+	public Crime(JSONObject json) throws JSONException {
+		mId = UUID.fromString(json.getString(JSON_ID));
+		try {
+			mTitle = json.getString(JSON_TITLE);
+		} catch (Exception ex) {
+			mTitle = "";
+		}
+		mDate = new Date(json.getLong(JSON_DATE));
+		mSolved = json.getBoolean(JSON_SOLVED);
+	}
 
 	public UUID getId() {
 		return mId;
@@ -55,10 +66,12 @@ public class Crime {
 		JSONObject json = new JSONObject();
 		json.put(JSON_ID, getId().toString());
 		json.put(JSON_TITLE, getTitle());
-		json.put(JSON_DATE, getDate().toString());
+		json.put(JSON_DATE, getDate().getTime());
 		json.put(JSON_SOLVED, isSolved());
 		return json;
 	}
+	
+	
 	
 	@Override
 	public String toString() {
