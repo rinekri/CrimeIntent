@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class CrimeLab {
 	private static final String TAG = "CrimeLab";
-	private static final String FILENAME = "crimes.json";
+	private static final String FILE_NAME = "crimes.json";
 	
 	private static CrimeLab sCrimeLab;
 	private Context mAppContext;
@@ -45,6 +45,7 @@ public class CrimeLab {
 	}
 	
 	public boolean saveCrimes() {
+		mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILE_NAME);
 		try {
 			mSerializer.saveCrimes(getCrimes());
 			Log.d(TAG, "Crimes saved to file");
