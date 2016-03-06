@@ -22,6 +22,7 @@ public class CrimeLab {
 		
 		try {
 			mCrimes = mSerializer.loadCrimes();
+			Log.d(TAG, "Crimes loaded from file");
 		} catch (Exception ex) {
 			mCrimes = new ArrayList<Crime>();
 			Log.e(TAG, "Error loading crimes", ex);

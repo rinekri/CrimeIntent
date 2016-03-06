@@ -1,7 +1,10 @@
 package com.example.criminalintent;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,7 +17,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.os.Environment;
 
 public class CriminalIntentJSONSerializer {
 	private Context mContext;
@@ -25,13 +31,21 @@ public class CriminalIntentJSONSerializer {
 		mFilename = f;
 	}
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void saveCrimes(ArrayList<Crime> crimes) throws JSONException, IOException{
 		JSONArray array = new JSONArray();
 		for (Crime c : crimes) 
 			array.put(c.toJSON());
 		Writer writer = null;
 		try {
-			OutputStream out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+			OutputStream out = null;
+			if (Environment.isExternalStorageEmulated() == true) {
+
+					File file = new File(mContext.getExternalFilesDir(null), mFilename);
+					out = new FileOutputStream(file, false);
+			} else {
+				out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+			}
 			writer = new OutputStreamWriter(out);
 			writer.write(array.toString());
 		} finally {
@@ -40,11 +54,18 @@ public class CriminalIntentJSONSerializer {
 		}
 	}
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public ArrayList<Crime> loadCrimes() throws IOException, JSONException {
 		ArrayList<Crime> crimes = new ArrayList<Crime>();
 		BufferedReader reader = null;
 		try {
-			InputStream in = mContext.openFileInput(mFilename);
+			InputStream in = null;
+			if (Environment.isExternalStorageEmulated() == true) {
+					File file = new File(mContext.getExternalFilesDir(null), mFilename);
+					in = new FileInputStream(file);
+			} else {
+				in = mContext.openFileInput(mFilename);
+			}
 			reader = new BufferedReader(new InputStreamReader(in));
 			StringBuilder jsonString = new StringBuilder();
 			String line = null;
