@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -82,6 +83,7 @@ public class CrimeListFragment extends ListFragment {
 		}
 	}
 	
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,6 +116,21 @@ public class CrimeListFragment extends ListFragment {
 		getActivity().getMenuInflater().inflate(R.menu.crime_list_item_context, menu);
 	}
 	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		int crimePosition = info.position;
+		CrimeAdapter adapter = (CrimeAdapter) getListAdapter();
+		Crime crime = adapter.getItem(crimePosition);
+		
+		switch(item.getItemId()) {
+			case R.id.menu_item_delete_crime:
+				CrimeLab.get(getActivity()).deleteCrime(crime);
+				adapter.notifyDataSetChanged();
+				return true;
+		}
+		return super.onContextItemSelected(item);
+	}
 	
 	public class CrimeAdapter extends ArrayAdapter<Crime> {
 
