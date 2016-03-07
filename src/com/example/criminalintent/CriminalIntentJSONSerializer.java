@@ -39,12 +39,15 @@ public class CriminalIntentJSONSerializer {
 		Writer writer = null;
 		try {
 			OutputStream out = null;
-			if (Environment.isExternalStorageEmulated() == true) {
-
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+				out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+			} else {
+				if (Environment.isExternalStorageEmulated() == true) {
 					File file = new File(mContext.getExternalFilesDir(null), mFilename);
 					out = new FileOutputStream(file, false);
-			} else {
-				out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+				} else {
+					out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+				}
 			}
 			writer = new OutputStreamWriter(out);
 			writer.write(array.toString());
@@ -60,11 +63,15 @@ public class CriminalIntentJSONSerializer {
 		BufferedReader reader = null;
 		try {
 			InputStream in = null;
-			if (Environment.isExternalStorageEmulated() == true) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+				in = mContext.openFileInput(mFilename);
+			} else {
+				if (Environment.isExternalStorageEmulated() == true) {
 					File file = new File(mContext.getExternalFilesDir(null), mFilename);
 					in = new FileInputStream(file);
-			} else {
-				in = mContext.openFileInput(mFilename);
+				} else {
+					in = mContext.openFileInput(mFilename);
+				}
 			}
 			reader = new BufferedReader(new InputStreamReader(in));
 			StringBuilder jsonString = new StringBuilder();
