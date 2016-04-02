@@ -32,22 +32,7 @@ public class CrimePagerActivity extends FragmentActivity {
 		setContentView(mViewPager);
 		
 		mCrimes = CrimeLab.get(this).getCrimes();
-		
-		FragmentManager fm = getSupportFragmentManager();
-		mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
-
-			@Override
-			public Fragment getItem(int position) {
-				Crime c = mCrimes.get(position);
-				return CrimeFragment.setInstance(c.getId());
-			}
-
-			@Override
-			public int getCount() {
-				return mCrimes.size();
-			}
-			
-		});
+		setPagerAdapter();
 		
 		UUID crimeId = (UUID) getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
 		for (int i = 0; i < mCrimes.size(); i++) {
@@ -100,23 +85,38 @@ public class CrimePagerActivity extends FragmentActivity {
 				FragmentStatePagerAdapter adapter = (FragmentStatePagerAdapter) mViewPager.getAdapter();
 				Crime crime = mCrimes.get(currentPositition);
 				CrimeLab.get(this).deleteCrime(crime);
-				adapter.notifyDataSetChanged();
-				if (NavUtils.getParentActivityName(this) != null) {
-					NavUtils.navigateUpFromSameTask(this);
-				}
-//				int size = mViewPager.getAdapter().getCount();
-//				Fragment page = adapter.getItem(currentPositition);
-
-
-//				if ((currentPositition == 0) && (size > 0))  {
-//					mViewPager.setCurrentItem(currentPositition+1);
-//				}
-//				adapter.destroyItem(mViewPager, currentPositition, page);
+//				adapter.notifyDataSetChanged();
+		        if(mCrimes.size() == 0) {
+		        	if(NavUtils.getParentActivityName(this) != null)
+		        		NavUtils.navigateUpFromSameTask(this);
+		        }
+		        else {
+		        	setPagerAdapter();
+		            if(currentPositition  == adapter.getCount())
+		            	mViewPager.setCurrentItem(currentPositition  - 1);
+		            else
+		            	mViewPager.setCurrentItem(currentPositition);
+		        }
 
 				return true;
 			default: 
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	  private void setPagerAdapter() {
+	      mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+		         @Override
+		         public Fragment getItem(int position) {
+		            Crime crime = mCrimes.get(position);
+		            return CrimeFragment.setInstance(crime.getId());
+		         }
+
+		         @Override
+		         public int getCount() {
+		            return mCrimes.size();
+		         }
+		      });
+	   }
 	
 }
