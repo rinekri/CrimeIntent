@@ -8,6 +8,7 @@ import java.util.UUID;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class CrimeFragment extends Fragment {
 	public static final String EXTRA_CRIME_ID = "com.example.criminalintent.crime_id";
@@ -34,6 +36,7 @@ public class CrimeFragment extends Fragment {
 	private EditText mEditText;
 	private Button mDateButton;
 	private CheckBox mSolvedCheckBox;
+	private ImageButton mOpenCameraImageButton;
 	
 	@Override
 	public void onCreate(Bundle savedFragmentState) {
@@ -61,6 +64,21 @@ public class CrimeFragment extends Fragment {
 			}
 		}
 		
+		mOpenCameraImageButton = (ImageButton) view.findViewById(R.id.crime_imageButton);
+		mOpenCameraImageButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), CrimeCameraActivity.class);
+				startActivity(i);
+			}
+		});
+		
+		PackageManager pm = getActivity().getPackageManager();
+		if ((!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) 
+				&& (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT))) {
+			mOpenCameraImageButton.setEnabled(false);
+		}
 		
 		mEditText = (EditText) view.findViewById(R.id.crime_title);
 		mEditText.setText(mCrime.getTitle());

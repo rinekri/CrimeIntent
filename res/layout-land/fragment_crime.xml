@@ -9,14 +9,15 @@
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
 	        android:layout_marginLeft="16dp"
-	        android:layout_marginTop="16dp">
+	        android:layout_marginTop="16dp"
+	        android:layout_marginRight="16dp">
 	    <LinearLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
 				android:layout_marginRight="4dp">
 	        <ImageButton
-	            android:id="@+id/crime_iamgeButton"
+	            android:id="@+id/crime_imageButton"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:src="@android:drawable/ic_menu_camera"
