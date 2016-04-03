@@ -33,7 +33,8 @@
         <activity
             android:name=".CrimeCameraActivity"
             android:screenOrientation="landscape"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:exported="true">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 	   android:value=".CrimePagerActivity"/>
         </activity>

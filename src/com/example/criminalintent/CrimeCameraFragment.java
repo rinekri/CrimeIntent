@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 public class CrimeCameraFragment extends Fragment {
 	public static final String TAG = "CrimeCameraFragment";
@@ -22,6 +23,7 @@ public class CrimeCameraFragment extends Fragment {
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
 	private Button mTakePictureButton;
+	private FrameLayout mProgressBarLayout;
 	
 	
 	@SuppressWarnings("deprecation")
@@ -83,6 +85,9 @@ public class CrimeCameraFragment extends Fragment {
 				
 			}
 		});
+		
+		mProgressBarLayout = (FrameLayout) v.findViewById(R.id.crime_camera_progressContainter);
+		mProgressBarLayout.setVisibility(View.INVISIBLE);
 		
 		return v;
 	}
