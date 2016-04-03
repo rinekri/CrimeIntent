@@ -1,8 +1,11 @@
 package com.example.criminalintent;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.os.Build;
@@ -24,6 +27,43 @@ public class CrimeCameraFragment extends Fragment {
 	private SurfaceView mSurfaceView;
 	private Button mTakePictureButton;
 	private FrameLayout mProgressBarLayout;
+	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
+		
+		@Override
+		public void onShutter() {
+			mProgressBarLayout.setVisibility(View.VISIBLE);
+			
+		}
+	};
+	private Camera.PictureCallback mJpegCallback = new Camera.PictureCallback() {
+		
+		@Override
+		public void onPictureTaken(byte[] data, Camera camera) {
+			String filename = UUID.randomUUID() + ".jpg";
+			FileOutputStream os = null;
+			boolean success = true;
+			try {
+				os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
+				os.write(data);
+			} catch(Exception ex) {
+				Log.e(TAG, "Error writing to file " + filename, ex);
+				success = false;
+			} finally {
+				try {
+					if (os != null) os.close();
+				} catch(Exception ex) {
+					Log.e(TAG, "Error closing file " + filename,ex);
+					success = false;
+				}
+			}
+			
+			if (success) {
+				Log.i(TAG, "JPEG saved at " + filename);
+			}
+			getActivity().finish();
+		}
+	};
+	
 	
 	
 	@SuppressWarnings("deprecation")
@@ -64,6 +104,8 @@ public class CrimeCameraFragment extends Fragment {
 				Camera.Parameters parameters = mCamera.getParameters();
 				Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), width, height);
 				parameters.setPreviewSize(s.width, s.height);
+				s = getBestSupportedSize(parameters.getSupportedPictureSizes(), width, height);
+				parameters.setPictureSize(s.width, s.height);
 				mCamera.setParameters(parameters);
 				try {
 					mCamera.startPreview();
@@ -81,7 +123,9 @@ public class CrimeCameraFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				getActivity().finish();
+				if (mCamera != null) {
+					mCamera.takePicture(mShutterCallback, null, mJpegCallback);
+				}
 				
 			}
 		});
