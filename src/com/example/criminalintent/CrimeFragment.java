@@ -9,6 +9,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,8 +34,10 @@ public class CrimeFragment extends Fragment {
 	public static final String TAG = "CrimeFragment";
 	public static final String EXTRA_CRIME_ID = "com.example.criminalintent.crime_id";
 	private static final String DIALOG_DATE = "date";
+	private static final String DIALOG_IMAGE = "image";
 	private static final int REQUEST_DATE = 0;	
 	private static final int REQUEST_PHOTO = 1;	
+	
 	
 	private Crime mCrime;
 	private EditText mEditText;
@@ -56,6 +59,18 @@ public class CrimeFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		CrimeLab.get(getActivity()).saveCrimes();
+	}
+	
+	@Override 
+	public void onStart() {
+		super.onStart();
+		showPhoto();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		PictureUtils.cleanImageVIew(mPhotoView);
 	}
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -132,6 +147,18 @@ public class CrimeFragment extends Fragment {
 		});
 		
 		mPhotoView = (ImageView) view.findViewById(R.id.crime_imageView);
+		mPhotoView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Photo p = mCrime.getPhoto();
+				if (p == null) return;
+				
+				FragmentManager manager = getActivity().getSupportFragmentManager();
+				String path = getActivity().getFileStreamPath(p.getPhotoName()).getAbsolutePath();
+				ImageFragment.newInstance(path).show(manager, DIALOG_IMAGE);
+			}
+		});
 		
 		return view;
 	}
@@ -170,13 +197,26 @@ public class CrimeFragment extends Fragment {
 			String filename = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_NAME);
 			if (filename != null) {
 				mCrime.setPhoto(new Photo(filename));
-				Log.i(TAG, "Crime: "+mCrime.getTitle()+" has a photo with the name "+filename);
+				showPhoto();
 			}
 		}
 	}
 	
-	public void updateDate(Date setdate) {
+	private void updateDate(Date setdate) {
 		String formatedString = new SimpleDateFormat("d MMM yyyy, EEEE", Locale.getDefault()).format(setdate);
 		mDateButton.setText(formatedString);
 	}
+	
+	private void showPhoto() {
+		Photo p = mCrime.getPhoto();
+		BitmapDrawable b = null;
+		
+		if (p != null) {
+			String path = getActivity().getFileStreamPath(p.getPhotoName()).getAbsolutePath();
+			b = PictureUtils.getSelectedDrawable(getActivity(), path);
+		}
+		
+		mPhotoView.setImageDrawable(b);
+	}
+	
 }
