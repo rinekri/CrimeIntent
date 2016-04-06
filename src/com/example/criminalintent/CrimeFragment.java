@@ -156,7 +156,8 @@ public class CrimeFragment extends Fragment {
 				
 				FragmentManager manager = getActivity().getSupportFragmentManager();
 				String path = getActivity().getFileStreamPath(p.getPhotoName()).getAbsolutePath();
-				ImageFragment.newInstance(path).show(manager, DIALOG_IMAGE);
+				String orient = p.getOrientation();
+				ImageFragment.newInstance(path, orient).show(manager, DIALOG_IMAGE);
 			}
 		});
 		
@@ -194,10 +195,12 @@ public class CrimeFragment extends Fragment {
 		}
 		
 		if(requestCode == REQUEST_PHOTO) {
-			String filename = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_NAME);
-			if (filename != null) {
-				mCrime.setPhoto(new Photo(filename));
+			String fileName = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_NAME);
+			String fileOrient = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_ORIENTATION);
+			if (fileName != null) {
+				mCrime.setPhoto(new Photo(fileName, fileOrient));
 				showPhoto();
+				Log.e(TAG, "Image orientation is "+fileOrient);
 			}
 		}
 	}
@@ -213,7 +216,8 @@ public class CrimeFragment extends Fragment {
 		
 		if (p != null) {
 			String path = getActivity().getFileStreamPath(p.getPhotoName()).getAbsolutePath();
-			b = PictureUtils.getSelectedDrawable(getActivity(), path);
+			String orientation = p.getOrientation();
+			b = PictureUtils.getSelectedDrawable(getActivity(), path, orientation);
 		}
 		
 		mPhotoView.setImageDrawable(b);

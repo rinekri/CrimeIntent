@@ -10,6 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,9 +26,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-public class CrimeCameraFragment extends Fragment {
+public class CrimeCameraFragment extends Fragment implements SensorEventListener{
 	public static final String TAG = "CrimeCameraFragment";
 	public static final String EXTRA_PHOTO_NAME = "com.example.criminalintent.photo_name";
+	public static final String EXTRA_PHOTO_ORIENTATION = "com.example.criminalintent.photo_orientation";
+
+	
+	private static final int SENSOR_DELAY = 500 * 1000;
+	private static final int FROM_RADS_TO_DEGS = -57;
+	private StringBuilder mOrientation;
+	
+	private SensorManager mSensorManager;
+	private Sensor mRotationSensor;
 	
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
@@ -63,6 +76,7 @@ public class CrimeCameraFragment extends Fragment {
 			if (success) {
 				Intent i = new Intent();
 				i.putExtra(EXTRA_PHOTO_NAME, filename);
+				i.putExtra(EXTRA_PHOTO_ORIENTATION, mOrientation.toString());
 				getActivity().setResult(Activity.RESULT_OK, i);
 			} else {
 				getActivity().setResult(Activity.RESULT_CANCELED);
@@ -70,8 +84,6 @@ public class CrimeCameraFragment extends Fragment {
 			getActivity().finish();
 		}
 	};
-	
-	
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -142,12 +154,17 @@ public class CrimeCameraFragment extends Fragment {
 		
 		return v;
 	}
-	
-	
+		
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+		mSensorManager = (SensorManager) getActivity().getSystemService(Activity.SENSOR_SERVICE);
+		mRotationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		mSensorManager.registerListener(this, mRotationSensor, SENSOR_DELAY);
+	    
+		mOrientation = new StringBuilder();
+    	mOrientation.append("landscape");
+
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			mCamera = Camera.open(0);
 		} else {
@@ -158,6 +175,7 @@ public class CrimeCameraFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		mSensorManager.unregisterListener(this);
 		
 		if (mCamera != null) {
 			mCamera.release();
@@ -176,6 +194,47 @@ public class CrimeCameraFragment extends Fragment {
 			}
 		}
 		return bestSize;
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		if (event.sensor == mRotationSensor) {
+	    	if (event.values.length > 4) {
+	    		float[] truncatedRotationVector = new float[4];
+	    	    System.arraycopy(event.values, 0, truncatedRotationVector, 0, 4);
+	    	    update(truncatedRotationVector);
+	    	} else {
+	    		 update(event.values);
+	    	}
+	    }
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+	
+	private void update(float[] vectors) {
+		float[] rotationMatrix = new float[9];
+	    SensorManager.getRotationMatrixFromVector(rotationMatrix, vectors);
+	    int worldAxisX = SensorManager.AXIS_X;
+	    int worldAxisZ = SensorManager.AXIS_Z;
+	    float[] adjustedRotationMatrix = new float[9];
+	    SensorManager.remapCoordinateSystem(rotationMatrix, worldAxisX, worldAxisZ, adjustedRotationMatrix);
+	    float[] orientation = new float[3];
+	    SensorManager.getOrientation(adjustedRotationMatrix, orientation);
+	    float roll = orientation[2] * FROM_RADS_TO_DEGS;
+	    Log.e(TAG, "Roll is "+roll);
+	    
+		mOrientation = new StringBuilder();
+
+	    if ((roll <= 45) && (roll >= -45)) {
+	    	mOrientation.append("portrait");
+	    } else if ((roll < 135) && (roll > 45)) {
+	    	mOrientation.append("landscape");
+	    } else if ((roll < -45) && (roll > -135)) {
+	    	mOrientation.append("reverse-landscape");
+	    } else {
+	    	mOrientation.append("reverse-portrait");
+	    }
 	}
 
 }

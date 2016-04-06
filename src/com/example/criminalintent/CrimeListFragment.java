@@ -127,6 +127,12 @@ public class CrimeListFragment extends ListFragment {
 	}
 	
 	@Override
+	public void onStop() {
+		super.onStop();
+		CrimeLab.get(getActivity()).saveCrimes();
+	}
+	
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.fragment_crime_list, menu);
