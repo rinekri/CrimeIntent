@@ -69,6 +69,10 @@ public class Crime {
 	public Photo getPhoto() {
 		return mPhoto;
 	}
+	
+	public void deletePhoto() {
+		mPhoto = null;
+	}
 
 	public void setPhoto(Photo photo) {
 		mPhoto = photo;

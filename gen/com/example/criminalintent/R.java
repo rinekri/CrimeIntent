@@ -2054,9 +2054,10 @@ containing a value of this type.
         public static final int listMode=0x7f09000b;
         public static final int list_item=0x7f090029;
         public static final int media_actions=0x7f090061;
-        public static final int menu_item_delete_crime=0x7f09006b;
-        public static final int menu_item_new_crime=0x7f09006c;
-        public static final int menu_item_show_subtitle=0x7f09006d;
+        public static final int menu_item_delete_crime=0x7f09006c;
+        public static final int menu_item_delete_image=0x7f09006b;
+        public static final int menu_item_new_crime=0x7f09006d;
+        public static final int menu_item_show_subtitle=0x7f09006e;
         public static final int middle=0x7f090021;
         public static final int multiply=0x7f090015;
         public static final int never=0x7f09001d;
@@ -2187,8 +2188,9 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f030029;
     }
     public static final class menu {
-        public static final int crime_list_item_context=0x7f0c0000;
-        public static final int fragment_crime_list=0x7f0c0001;
+        public static final int crime_fragment_context=0x7f0c0000;
+        public static final int crime_list_item_context=0x7f0c0001;
+        public static final int fragment_crime_list=0x7f0c0002;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -2264,6 +2266,7 @@ containing a value of this type.
         public static final int crimes_title=0x7f0a0019;
         public static final int date_picker_title=0x7f0a001a;
         public static final int delete_crime=0x7f0a001f;
+        public static final int delete_image=0x7f0a0020;
         public static final int hide_subtitle=0x7f0a001d;
         public static final int new_crime=0x7f0a001b;
         public static final int show_subtitle=0x7f0a001c;
@@ -2275,7 +2278,7 @@ containing a value of this type.
          */
         public static final int status_bar_notification_info_overflow=0x7f0a0011;
         public static final int subtitle=0x7f0a001e;
-        public static final int take=0x7f0a0020;
+        public static final int take=0x7f0a0021;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f0b0042;

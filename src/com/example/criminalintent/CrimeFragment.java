@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import com.example.criminalintent.CrimeListFragment.CrimeAdapter;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +21,13 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.ContextMenu;
+import android.view.ActionMode.Callback;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +38,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class CrimeFragment extends Fragment {
 	public static final String TAG = "CrimeFragment";
@@ -161,6 +170,55 @@ public class CrimeFragment extends Fragment {
 				ImageFragment.newInstance(path, orient).show(manager, DIALOG_IMAGE);
 			}
 		});
+		mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				if (mCrime.getPhoto() == null) return false; 
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+					registerForContextMenu(mPhotoView);
+				} else {
+					getActivity().startActionMode(new Callback(){
+
+						@Override
+						public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+							MenuInflater inflater = mode.getMenuInflater();
+							inflater.inflate(R.menu.crime_fragment_context, menu);
+							return true;
+						}
+
+						@Override
+						public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+
+						@Override
+						public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+							switch(item.getItemId()) {
+								case R.id.menu_item_delete_image:
+
+									Photo p = mCrime.getPhoto();
+									PictureUtils.deleteImageFromDisk(getContext(), p);
+									mCrime.deletePhoto();	
+									PictureUtils.cleanImageVIew(mPhotoView);
+									mode.finish();
+									return true;
+								default:
+									return false;
+							}
+						}
+
+						@Override
+						public void onDestroyActionMode(ActionMode mode) {
+							// TODO Auto-generated method stub
+						}
+					});
+				}
+				
+				return true;
+			}
+		});
 		
 		return view;
 	}
@@ -231,6 +289,28 @@ public class CrimeFragment extends Fragment {
 				mPhotoView.setImageDrawable(b);
 			}
 		}
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		getActivity().getMenuInflater().inflate(R.menu.crime_fragment_context, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+			case R.id.menu_item_delete_crime:
+				deleteImageFromAll();
+				return true;
+		}
+		return super.onContextItemSelected(item);
+	}
+	
+	private void deleteImageFromAll() {
+		Photo p = mCrime.getPhoto();
+		PictureUtils.deleteImageFromDisk(getContext(), p);
+		mCrime.deletePhoto();	
+		PictureUtils.cleanImageVIew(mPhotoView);
 	}
 	
 }
