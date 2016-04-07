@@ -1,15 +1,19 @@
 package com.example.criminalintent;
 
+import java.io.File;
+
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.Display;
 import android.widget.ImageView;
 
 public class PictureUtils {
-	
+	public static final String TAG = "PictureUtils";
 	
 	@SuppressWarnings("deprecation")
 	public static BitmapDrawable getSelectedDrawable(Activity act, String path, String orientation) {
@@ -56,6 +60,17 @@ public class PictureUtils {
 
 	
 		return new BitmapDrawable(act.getResources(), bitmapInitial);
+	}
+	
+	public static void deleteImageFromDisk(Context context, Photo photo) {
+		if (photo != null) {
+			if(photo.getPhotoName() != null) {
+				File path = context.getFileStreamPath(photo.getPhotoName());
+				path.delete();
+				Log.d(TAG, "Image "+path.getAbsolutePath()+" was deleted!");
+			}
+			
+		}
 	}
 	
 	public static void cleanImageVIew(ImageView imageView) {

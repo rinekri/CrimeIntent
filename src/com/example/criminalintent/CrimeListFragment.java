@@ -1,5 +1,6 @@
 package com.example.criminalintent;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -142,7 +144,6 @@ public class CrimeListFragment extends ListFragment {
 		}
 	}
 	
-
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -181,7 +182,7 @@ public class CrimeListFragment extends ListFragment {
 		int crimePosition = info.position;
 		CrimeAdapter adapter = (CrimeAdapter) getListAdapter();
 		Crime crime = adapter.getItem(crimePosition);
-		
+
 		switch(item.getItemId()) {
 			case R.id.menu_item_delete_crime:
 				CrimeLab.get(getActivity()).deleteCrime(crime);

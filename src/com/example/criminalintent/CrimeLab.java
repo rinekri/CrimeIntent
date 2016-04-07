@@ -52,6 +52,7 @@ public class CrimeLab {
 	}
 	
 	public void deleteCrime(Crime c) {
+		PictureUtils.deleteImageFromDisk(mAppContext, c.getPhoto());
 		mCrimes.remove(c);
 	}
 	

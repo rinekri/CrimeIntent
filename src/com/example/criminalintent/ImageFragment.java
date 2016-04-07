@@ -1,5 +1,7 @@
 package com.example.criminalintent;
 
+import java.io.File;
+
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,9 +19,12 @@ public class ImageFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 		mImageView = new ImageView(getActivity());
 		String path = (String) getArguments().getSerializable(EXTRA_IMAGE_PATH);
-		String orientation = (String) getArguments().getSerializable(EXTRA_IMAGE_ORIENTATION);
-		BitmapDrawable image = PictureUtils.getSelectedDrawable(getActivity(), path, orientation);
-		mImageView.setImageDrawable(image);
+		File pathFile = new File(path);
+		if(pathFile.exists()) {
+			String orientation = (String) getArguments().getSerializable(EXTRA_IMAGE_ORIENTATION);
+			BitmapDrawable image = PictureUtils.getSelectedDrawable(getActivity(), path, orientation);
+			mImageView.setImageDrawable(image);
+		}
 		
 		return mImageView;
 	}

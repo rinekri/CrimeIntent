@@ -1,5 +1,6 @@
 package com.example.criminalintent;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -195,6 +196,14 @@ public class CrimeFragment extends Fragment {
 		}
 		
 		if(requestCode == REQUEST_PHOTO) {
+			
+			if (mCrime.getPhoto() != null) {
+				if(mCrime.getPhoto().getPhotoName() != null) {
+					File path = getActivity().getFileStreamPath(mCrime.getPhoto().getPhotoName());
+					path.delete();
+				}
+			}
+			
 			String fileName = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_NAME);
 			String fileOrient = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_ORIENTATION);
 			if (fileName != null) {
@@ -215,12 +224,13 @@ public class CrimeFragment extends Fragment {
 		BitmapDrawable b = null;
 		
 		if (p != null) {
-			String path = getActivity().getFileStreamPath(p.getPhotoName()).getAbsolutePath();
-			String orientation = p.getOrientation();
-			b = PictureUtils.getSelectedDrawable(getActivity(), path, orientation);
+			File path = getActivity().getFileStreamPath(p.getPhotoName());
+			if (path.exists()) {
+				String orientation = p.getOrientation();
+				b = PictureUtils.getSelectedDrawable(getActivity(), path.getAbsolutePath(), orientation);
+				mPhotoView.setImageDrawable(b);
+			}
 		}
-		
-		mPhotoView.setImageDrawable(b);
 	}
 	
 }
