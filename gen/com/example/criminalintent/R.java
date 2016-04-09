@@ -1995,7 +1995,7 @@ containing a value of this type.
         public static final int notification_template_icon_bg=0x7f020047;
     }
     public static final class id {
-        public static final int action0=0x7f09005e;
+        public static final int action0=0x7f090060;
         public static final int action_bar=0x7f090042;
         public static final int action_bar_activity_content=0x7f090003;
         public static final int action_bar_container=0x7f090041;
@@ -2004,7 +2004,7 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f090023;
         public static final int action_bar_title=0x7f090022;
         public static final int action_context_bar=0x7f090043;
-        public static final int action_divider=0x7f090062;
+        public static final int action_divider=0x7f090064;
         public static final int action_menu_divider=0x7f090005;
         public static final int action_menu_presenter=0x7f090006;
         public static final int action_mode_bar=0x7f09003f;
@@ -2015,21 +2015,23 @@ containing a value of this type.
         public static final int always=0x7f09001a;
         public static final int beginning=0x7f09001f;
         public static final int buttonPanel=0x7f09002c;
-        public static final int cancel_action=0x7f09005f;
+        public static final int cancel_action=0x7f090061;
         public static final int checkbox=0x7f09003a;
-        public static final int chronometer=0x7f090065;
+        public static final int chronometer=0x7f090067;
         public static final int collapseActionView=0x7f09001b;
         public static final int contentPanel=0x7f090032;
-        public static final int crime_camera_progressContainter=0x7f09005a;
-        public static final int crime_camera_surfaceView=0x7f090058;
-        public static final int crime_camera_takePictureButton=0x7f090059;
+        public static final int crime_camera_progressContainter=0x7f09005c;
+        public static final int crime_camera_surfaceView=0x7f09005a;
+        public static final int crime_camera_takePictureButton=0x7f09005b;
         public static final int crime_date=0x7f090056;
         public static final int crime_imageButton=0x7f090054;
         public static final int crime_imageView=0x7f090053;
-        public static final int crime_list_item_dateTextView=0x7f09005d;
-        public static final int crime_list_item_solvedCheckBox=0x7f09005b;
-        public static final int crime_list_item_titleTextView=0x7f09005c;
+        public static final int crime_list_item_dateTextView=0x7f09005f;
+        public static final int crime_list_item_solvedCheckBox=0x7f09005d;
+        public static final int crime_list_item_titleTextView=0x7f09005e;
+        public static final int crime_reportButton=0x7f090059;
         public static final int crime_solved=0x7f090057;
+        public static final int crime_suspectButton=0x7f090058;
         public static final int crime_title=0x7f090055;
         public static final int custom=0x7f090038;
         public static final int customPanel=0x7f090037;
@@ -2039,7 +2041,7 @@ containing a value of this type.
         public static final int disableHome=0x7f09000e;
         public static final int edit_query=0x7f090044;
         public static final int end=0x7f090020;
-        public static final int end_padder=0x7f09006a;
+        public static final int end_padder=0x7f09006c;
         public static final int expand_activities_button=0x7f090026;
         public static final int expanded_menu=0x7f090039;
         public static final int fragmentContainer=0x7f090051;
@@ -2048,15 +2050,15 @@ containing a value of this type.
         public static final int icon=0x7f09002a;
         public static final int ifRoom=0x7f09001c;
         public static final int image=0x7f090027;
-        public static final int info=0x7f090069;
-        public static final int line1=0x7f090063;
-        public static final int line3=0x7f090067;
+        public static final int info=0x7f09006b;
+        public static final int line1=0x7f090065;
+        public static final int line3=0x7f090069;
         public static final int listMode=0x7f09000b;
         public static final int list_item=0x7f090029;
-        public static final int media_actions=0x7f090061;
-        public static final int menu_item_delete_crime=0x7f09006b;
-        public static final int menu_item_new_crime=0x7f09006c;
-        public static final int menu_item_show_subtitle=0x7f09006d;
+        public static final int media_actions=0x7f090063;
+        public static final int menu_item_delete_crime=0x7f09006d;
+        public static final int menu_item_new_crime=0x7f09006e;
+        public static final int menu_item_show_subtitle=0x7f09006f;
         public static final int middle=0x7f090021;
         public static final int multiply=0x7f090015;
         public static final int never=0x7f09001d;
@@ -2090,13 +2092,13 @@ containing a value of this type.
         public static final int src_atop=0x7f090017;
         public static final int src_in=0x7f090018;
         public static final int src_over=0x7f090019;
-        public static final int status_bar_latest_event_content=0x7f090060;
+        public static final int status_bar_latest_event_content=0x7f090062;
         public static final int submit_area=0x7f09004d;
         public static final int tabMode=0x7f09000d;
-        public static final int text=0x7f090068;
-        public static final int text2=0x7f090066;
+        public static final int text=0x7f09006a;
+        public static final int text2=0x7f090068;
         public static final int textSpacerNoButtons=0x7f090035;
-        public static final int time=0x7f090064;
+        public static final int time=0x7f090066;
         public static final int title=0x7f09002b;
         public static final int title_template=0x7f090030;
         public static final int topPanel=0x7f09002f;
@@ -2258,7 +2260,15 @@ containing a value of this type.
         public static final int abc_toolbar_collapse_description=0x7f0a0004;
         public static final int app_name=0x7f0a0014;
         public static final int crime_details_label=0x7f0a0017;
+        public static final int crime_report=0x7f0a0023;
+        public static final int crime_report_no_suspect=0x7f0a0026;
+        public static final int crime_report_solved=0x7f0a0024;
+        public static final int crime_report_subject=0x7f0a0028;
+        public static final int crime_report_suspect=0x7f0a0027;
+        public static final int crime_report_text=0x7f0a0022;
+        public static final int crime_report_unsolved=0x7f0a0025;
         public static final int crime_solved_label=0x7f0a0018;
+        public static final int crime_suspect_text=0x7f0a0021;
         public static final int crime_title_hint=0x7f0a0015;
         public static final int crime_title_label=0x7f0a0016;
         public static final int crimes_title=0x7f0a0019;
@@ -2266,6 +2276,7 @@ containing a value of this type.
         public static final int delete_crime=0x7f0a001f;
         public static final int hide_subtitle=0x7f0a001d;
         public static final int new_crime=0x7f0a001b;
+        public static final int send_report=0x7f0a0029;
         public static final int show_subtitle=0x7f0a001c;
         /**  Text to use when the number in a notification info is too large
          (greater than status_bar_notification_info_maxnum, defined in
