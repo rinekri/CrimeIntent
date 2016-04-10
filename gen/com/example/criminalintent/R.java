@@ -2261,12 +2261,13 @@ containing a value of this type.
         public static final int app_name=0x7f0a0014;
         public static final int crime_details_label=0x7f0a0017;
         public static final int crime_report=0x7f0a0023;
-        public static final int crime_report_no_suspect=0x7f0a0026;
-        public static final int crime_report_solved=0x7f0a0024;
-        public static final int crime_report_subject=0x7f0a0028;
-        public static final int crime_report_suspect=0x7f0a0027;
+        public static final int crime_report_no_suspect=0x7f0a0027;
+        public static final int crime_report_no_title=0x7f0a0024;
+        public static final int crime_report_solved=0x7f0a0025;
+        public static final int crime_report_subject=0x7f0a0029;
+        public static final int crime_report_suspect=0x7f0a0028;
         public static final int crime_report_text=0x7f0a0022;
-        public static final int crime_report_unsolved=0x7f0a0025;
+        public static final int crime_report_unsolved=0x7f0a0026;
         public static final int crime_solved_label=0x7f0a0018;
         public static final int crime_suspect_text=0x7f0a0021;
         public static final int crime_title_hint=0x7f0a0015;
@@ -2276,7 +2277,7 @@ containing a value of this type.
         public static final int delete_crime=0x7f0a001f;
         public static final int hide_subtitle=0x7f0a001d;
         public static final int new_crime=0x7f0a001b;
-        public static final int send_report=0x7f0a0029;
+        public static final int send_report=0x7f0a002a;
         public static final int show_subtitle=0x7f0a001c;
         /**  Text to use when the number in a notification info is too large
          (greater than status_bar_notification_info_maxnum, defined in

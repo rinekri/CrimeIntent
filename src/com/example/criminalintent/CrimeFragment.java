@@ -46,6 +46,7 @@ public class CrimeFragment extends Fragment {
 	private CheckBox mSolvedCheckBox;
 	private ImageButton mOpenCameraImageButton;
 	private ImageView mPhotoView;
+	private Button mSendReportButton;
 	
 	@Override
 	public void onCreate(Bundle savedFragmentState) {
@@ -161,6 +162,19 @@ public class CrimeFragment extends Fragment {
 			}
 		});
 		
+		mSendReportButton = (Button) view.findViewById(R.id.crime_reportButton);
+		mSendReportButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(Intent.ACTION_SEND);
+				i.setType("text/plain");
+				i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+				i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject));
+				startActivity(Intent.createChooser(i, getString(R.string.send_report)));
+			}
+		});
+		
 		return view;
 	}
 	
@@ -238,7 +252,12 @@ public class CrimeFragment extends Fragment {
 			suspect = getString(R.string.crime_report_suspect, suspect);
 		}
 		
-		String report = getString(R.string.crime_report, mCrime.getTitle(), dateString, solvedString, suspect);
+		String report = null;
+		if (mCrime.getTitle().equals("")) {
+			report = getString(R.string.crime_report_no_title, dateString, solvedString, suspect);
+		} else {
+			report = getString(R.string.crime_report, mCrime.getTitle(), dateString, solvedString, suspect);
+		}
 		
 		return report;
 	}
