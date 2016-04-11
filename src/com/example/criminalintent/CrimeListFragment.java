@@ -112,6 +112,7 @@ public class CrimeListFragment extends ListFragment {
 		return v;
 	}
 	
+	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Crime c = ((CrimeAdapter) getListAdapter()).getItem(position);

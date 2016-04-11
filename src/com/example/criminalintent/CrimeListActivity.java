@@ -8,4 +8,9 @@ public class CrimeListActivity extends SingleFragmentActivity {
 	protected Fragment createFragment() {
 		return new CrimeListFragment();
 	}
+	
+	@Override
+	protected int getLayoutResuorceId() {
+		return R.layout.activity_twopane;
+	}
 }
