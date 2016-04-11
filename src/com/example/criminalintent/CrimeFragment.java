@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -51,6 +52,7 @@ public class CrimeFragment extends Fragment {
 	private ImageView mPhotoView;
 	private Button mSendReportButton;
 	private Button mSuspectButton;
+	private Button mSuspectTelButton;
 	
 	@Override
 	public void onCreate(Bundle savedFragmentState) {
@@ -184,12 +186,31 @@ public class CrimeFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+				Intent i = new Intent(Intent.ACTION_PICK, Phone.CONTENT_URI);
 				startActivityForResult(i, REQUEST_CONTACT);
 			}
 		});
 		
 		if (mCrime.getSuspect() != null) mSuspectButton.setText(mCrime.getSuspect());
+		
+		mSuspectTelButton = (Button) view.findViewById(R.id.crime_callButton);
+		if (mCrime.getSuspectTelephone() == null) {
+			mSuspectTelButton.setEnabled(false);
+		} else {
+			mSuspectTelButton.setText(mCrime.getSuspectTelephone());
+			mSuspectTelButton.setEnabled(true);
+		}
+		
+		
+		mSuspectTelButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Uri number = Uri.parse("tel:"+mCrime.getSuspectTelephone());
+				Intent i = new Intent(Intent.ACTION_DIAL, number);
+				startActivity(i);
+			}
+		});
 		
 		return view;
 	}
@@ -235,7 +256,7 @@ public class CrimeFragment extends Fragment {
 		if(requestCode == REQUEST_CONTACT) {
 			Uri contactUri = data.getData();
 			
-			String[] queryFields = new String[] {ContactsContract.Contacts.DISPLAY_NAME};
+			String[] queryFields = new String[] {ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
 			Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null, null, null);
 			
 			if (c.getCount() == 0) {
@@ -247,8 +268,12 @@ public class CrimeFragment extends Fragment {
 			String suspect = c.getString(0);
 			mCrime.setSuspect(suspect);
 			mSuspectButton.setText(suspect);
-			c.close();
 			
+			String number = c.getString(1);
+			mCrime.setSuspectTelephone(number);
+			mSuspectTelButton.setText(number);
+			mSuspectTelButton.setEnabled(true);
+			c.close();
 		}
 	}
 	
@@ -288,7 +313,7 @@ public class CrimeFragment extends Fragment {
 		}
 		
 		String report = null;
-		if (mCrime.getTitle().equals("")) {
+		if (mCrime.getTitle().equals("") || mCrime.getTitle() == null) {
 			report = getString(R.string.crime_report_no_title, dateString, solvedString, suspect);
 		} else {
 			report = getString(R.string.crime_report, mCrime.getTitle(), dateString, solvedString, suspect);

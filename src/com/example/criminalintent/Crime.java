@@ -13,6 +13,7 @@ public class Crime {
 	private static final String JSON_PHOTO = "photo";
 	private static final String JSON_SOLVED = "solved";
 	private static final String JSON_SUSPECT = "suspect";
+	private static final String JSON_SUSPECT_TELEPHONE = "suspect_telephone";
 	
 	private UUID mId;
 	private String mTitle;
@@ -20,6 +21,7 @@ public class Crime {
 	private boolean mSolved;
 	private Photo mPhoto;
 	private String mSuspect;
+	private String mSuspectTelephone;
 	
 	
 	public Crime() {
@@ -36,6 +38,7 @@ public class Crime {
 		}
 		if (json.has(JSON_PHOTO)) mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
 		if (json.has(JSON_SUSPECT)) mSuspect = json.getString(JSON_SUSPECT);
+		if (json.has(JSON_SUSPECT_TELEPHONE)) mSuspectTelephone = json.getString(JSON_SUSPECT_TELEPHONE);
 		
 		mDate = new Date(json.getLong(JSON_DATE));
 		mSolved = json.getBoolean(JSON_SOLVED);
@@ -84,14 +87,23 @@ public class Crime {
 	public void setSuspect(String suspect) {
 		mSuspect = suspect;
 	}
+	
+	public String getSuspectTelephone() {
+		return mSuspectTelephone;
+	}
+
+	public void setSuspectTelephone(String suspectTelephone) {
+		mSuspectTelephone = suspectTelephone;
+	}
 
 	public JSONObject toJSON() throws JSONException {
 		JSONObject json = new JSONObject();
 		json.put(JSON_ID, getId().toString());
 		json.put(JSON_TITLE, getTitle());
 		json.put(JSON_DATE, getDate().getTime());
-		if(mPhoto != null) json.put(JSON_PHOTO, mPhoto.toJSON());
-		if(mSuspect !=null) json.put(JSON_SUSPECT, mSuspect);
+		if (mPhoto != null) json.put(JSON_PHOTO, mPhoto.toJSON());
+		if (mSuspect != null) json.put(JSON_SUSPECT, mSuspect);
+		if (mSuspectTelephone != null) json.put(JSON_SUSPECT_TELEPHONE, mSuspectTelephone);
 		json.put(JSON_SOLVED, isSolved());
 		return json;
 	}
