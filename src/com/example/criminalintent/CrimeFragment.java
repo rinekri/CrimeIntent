@@ -53,6 +53,11 @@ public class CrimeFragment extends Fragment {
 	private Button mSendReportButton;
 	private Button mSuspectButton;
 	private Button mSuspectTelButton;
+	private Callbacks mCallbacks;
+	
+	public interface Callbacks {
+		void onCrimeUpdated(Crime crime);
+	}
 	
 	@Override
 	public void onCreate(Bundle savedFragmentState) {
@@ -79,6 +84,18 @@ public class CrimeFragment extends Fragment {
 	public void onStop() {
 		super.onStop();
 		PictureUtils.cleanImageVIew(mPhotoView);
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCallbacks = (Callbacks) activity;
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mCallbacks = null;
 	}
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -127,6 +144,8 @@ public class CrimeFragment extends Fragment {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				mCrime.setTitle(s.toString());
+				mCallbacks.onCrimeUpdated(mCrime);
+				getActivity().setTitle(mCrime.getTitle());
 			}
 		});
 		
@@ -151,6 +170,7 @@ public class CrimeFragment extends Fragment {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				mCrime.setSolved(isChecked);
+				mCallbacks.onCrimeUpdated(mCrime);
 			}
 		});
 		
@@ -242,6 +262,7 @@ public class CrimeFragment extends Fragment {
 		if(requestCode == REQUEST_DATE) {
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			mCrime.setDate(date);
+			mCallbacks.onCrimeUpdated(mCrime);
 			updateDate(mCrime.getDate());
 		}
 		
@@ -249,6 +270,7 @@ public class CrimeFragment extends Fragment {
 			String filename = (String) data.getSerializableExtra(CrimeCameraFragment.EXTRA_PHOTO_NAME);
 			if (filename != null) {
 				mCrime.setPhoto(new Photo(filename));
+				mCallbacks.onCrimeUpdated(mCrime);
 				showPhoto();
 			}
 		}
@@ -273,6 +295,7 @@ public class CrimeFragment extends Fragment {
 			mCrime.setSuspectTelephone(number);
 			mSuspectTelButton.setText(number);
 			mSuspectTelButton.setEnabled(true);
+			mCallbacks.onCrimeUpdated(mCrime);
 			c.close();
 		}
 	}
